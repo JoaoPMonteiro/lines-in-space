@@ -127,20 +127,27 @@ class LISDemo:
 
                             # pose landmarks from estimation
                             detection = node.io['test_1'].get().getLayerFp16('input_1')
+                            score = detection[4]
 
-                            xwidth = detection[2]-detection[0]                                                        
-                            yheight = detection[3]-detection[1]
-                            bsidehalf = max(xwidth, yheight) / 2 
-                            xcenter = (detection[2] + detection[0]) / 2
-                            ycenter = (detection[3] + detection[1]) / 2  
-                            xmin = (xcenter - bsidehalf) / 640.0
-                            xmin = max(0, xmin)
-                            ymin = (ycenter - bsidehalf) / 640.0
-                            ymin = max(0, ymin)
-                            xmax = (xcenter + bsidehalf) / 640.0
-                            xmax = min(1, xmax)
-                            ymax = (ycenter + bsidehalf) / 640.0
-                            ymax = min(1, ymax)
+                            if score>0.8:
+                                xwidth = detection[2]-detection[0]                                                        
+                                yheight = detection[3]-detection[1]
+                                bsidehalf = max(xwidth, yheight) / 2 
+                                xcenter = (detection[2] + detection[0]) / 2
+                                ycenter = (detection[3] + detection[1]) / 2  
+                                xmin = (xcenter - bsidehalf) / 640.0
+                                xmin = max(0, xmin)
+                                ymin = (ycenter - bsidehalf) / 640.0
+                                ymin = max(0, ymin)
+                                xmax = (xcenter + bsidehalf) / 640.0
+                                xmax = min(1, xmax)
+                                ymax = (ycenter + bsidehalf) / 640.0
+                                ymax = min(1, ymax)
+                            else:
+                                xmin = 0
+                                ymin = 0
+                                xmax = 1
+                                ymax = 1
                             #node.warn(str(xmin)+','+str(ymin)+','+str(xmax)+','+str(ymax))
                             
                             cfg = ImageManipConfig()
